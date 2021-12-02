@@ -1,0 +1,67 @@
+{
+  "name": "legai-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "cypress:open": "npx cypress open",
+    "cypress:all": "./node_modules/.bin/cypress-tags run -e TAGS='not @wip'",
+    "cypress:main": "./node_modules/.bin/cypress-tags run -e TAGS='@main and not @wip'",
+    "cypress:dev": "./node_modules/.bin/cypress-tags run -e TAGS='@dev and not @wip'"
+  },
+  "dependencies": {
+    "@vuelidate/core": "^2.0.0-alpha.26",
+    "@vuelidate/validators": "^2.0.0-alpha.22",
+    "core-js": "^3.16.1",
+    "lorem-ipsum": "^2.0.3",
+    "secure-ls": "^1.2.6",
+    "vue": "^3.0.0",
+    "vue-cookies": "^1.7.4",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.1",
+    "@vue/cli-plugin-babel": "~5.0.0-beta.3",
+    "@vue/cli-plugin-eslint": "~5.0.0-beta.3",
+    "@vue/cli-plugin-router": "~5.0.0-beta.3",
+    "@vue/cli-service": "^5.0.0-beta.4",
+    "@vue/compiler-sfc": "^3.2.2",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "axios": "^0.21.4",
+    "babel-eslint": "^10.1.0",
+    "cypress": "^8.3.0",
+    "cypress-cucumber-preprocessor": "^4.2.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-cypress": "^2.11.3",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-vue": "^7.16.0",
+    "prettier": "^2.3.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "@vue/prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+  }
+}
