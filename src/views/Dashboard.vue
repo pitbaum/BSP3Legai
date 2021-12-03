@@ -8,7 +8,7 @@
 		<span> {{errorMSG}}</span>
 		<p>Cases: {{caseNumber}}</p>
 		<input type="submit" value="Log out" v-on:click="checkLogout" data-testid="logoutBtn">
-		<input type="submit" value="New Case" v-on:click="createNewCase" data-testid="newBtn">
+		<input type="submit" value="New Case" v-on:click="createNewCase" data-testid="newCaseBtn">
 	</div>
 </template>
 
@@ -71,23 +71,21 @@ import VueCookies from 'vue-cookies';
 		    	env.$router.push("/login");
           	  }
 			  else
-				env.errorMSg = response.status + 'seems the like the server couldnt be reached';
+				env.errorMSg = response.status + ' seems the like the server couldnt be reached';
         	})
 		  }
 		  else
 		  	this.$router.push('/login');
 	  },
 
-	  async createNewCase(e){
+	  async createNewCase(e) {
 		e.preventDefault();
+		let env = this;
 		let payload = {token: VueCookies.get('token').token};
 		await axios.post("/dashboard", payload).then(function(response) {
           if(response.status === 201)
-		  	this.$router.push("CaseFAQ")//access granted, reroute
+		  	env.$router.push("/casefaq")//access granted, reroute
         })
-        .catch(function(error) {
-          window.alert(error)
-        });
 	  }
     },
   }
