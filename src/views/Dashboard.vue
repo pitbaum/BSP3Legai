@@ -21,19 +21,19 @@ import VueCookies from 'vue-cookies';
 	async mounted() {
 		let authen = ''
 		if(VueCookies.isKey('token'))
-			authen = VueCookies.get('token').token;
+			authen = VueCookies.get('token').token
 		else
-			authen = 'NULL'; //if we enter without token, the backend will get a NULL string as token
+			authen = 'NULL' //if we enter without token, the backend will get a NULL string as token
 
 		let payload = {token: authen}
         let response = await axios.post('/dashboard', payload)
 		if(response.status === 200){ //reserve 200 for try without token
-			this.$router.push("/login");
+			this.$router.push("/login")
 		}
 		if(response.status >=200 && response.status <= 209) {
 			this.isValid = true
-			this.welcomeMSG = response.data.welcome; //include personal welcome msg
-			this.gatherFiles();
+			this.welcomeMSG = response.data.welcome //include personal welcome msg
+			this.gatherFiles()
 		}
 		else 
 			this.$router.push("/login") //invalid anwser go to the home.
@@ -61,27 +61,27 @@ import VueCookies from 'vue-cookies';
 	  async checkLogout(e) {
 		  //removes the token, thus making it the non-logged in state.
 		  //and sends a deletion request to the backend.
-		  e.preventDefault();
+		  e.preventDefault()
 		  if(VueCookies.isKey('token')) {
-			let payload = {token: VueCookies.get('token').token};
+			let payload = {token: VueCookies.get('token').token}
 			const env = this;	//need the environement in the axios
 		    await axios.post('/dashboard', payload).then(function(response) {
          	  if(response.status === 201) {
-				VueCookies.remove('token');
-		    	env.$router.push("/login");
+				VueCookies.remove('token')
+		    	env.$router.push("/login")
           	  }
 			  else
-				env.errorMSg = response.status + ' seems the like the server couldnt be reached';
+				env.errorMSg = response.status + ' seems the like the server couldnt be reached'
         	})
 		  }
 		  else
-		  	this.$router.push('/login');
+		  	this.$router.push('/login')
 	  },
 
 	  async createNewCase(e) {
-		e.preventDefault();
-		let env = this;
-		let payload = {token: VueCookies.get('token').token};
+		e.preventDefault()
+		let env = this
+		let payload = {token: VueCookies.get('token').token}
 		await axios.post("/dashboard", payload).then(function(response) {
           if(response.status === 201)
 		  	env.$router.push("/casefaq")//access granted, reroute

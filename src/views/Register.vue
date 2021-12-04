@@ -33,24 +33,24 @@
     },
     methods: {
       async checkRegistration(e) {
-        e.preventDefault(); //prevent page reload on form submit
+        e.preventDefault() //prevent page reload on form submit
         // POST request using axios with async/await
-        const body = {email: this.emailField, password: this.passwordField};
-        let validation = false;
+        const body = {email: this.emailField, password: this.passwordField}
+        let validation = false
         let vaError = "";
         await axios.post("/register", body)
         .then(function(response) {
           if(response.status === 201)
             validation = true
           else 
-            validation = false;
+            validation = false
         })
-        .catch(function(error) {
-          vaError = error;
+        .catch(function(error) {//need to catch the error, backend is expected to throw one for the invalid case.
+          vaError = error
         });
-        this.isVisible = true;
-        this.isValid = validation;
-        this.errorMessage = vaError;
+        this.isVisible = true
+        this.isValid = validation
+        this.errorMessage = vaError
       },
     }
   }

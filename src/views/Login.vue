@@ -34,27 +34,27 @@
     },
     methods: {
       async checkLogin(e) {
-        e.preventDefault(); //prevent page reload on form submit
+        e.preventDefault() //prevent page reload on form submit
         // POST request using axios with async/await
-        const body = {email: this.emailField, password: this.passwordField};
-        let validation = false;
-        let vaError = "";
+        const body = {email: this.emailField, password: this.passwordField}
+        let validation = false
+        let vaError = ""
         await axios.post("/login", body)
         .then(function(response) {
           if(response.status === 201) {
-            validation = true;
-            VueCookies.set('token', response.data, {expire: '1h', path: '/dashboard', domain: '', secure: '', sameSite: '',}); //VueCookies.set('token' , response.data, "1h");
+            validation = true
+            VueCookies.set('token', response.data, {expire: '1h', path: '/dashboard', domain: '', secure: '', sameSite: '',})//VueCookies.set('token' , response.data, "1h");
           }
           else 
-            validation = false; //wrong email or password
+            validation = false //wrong email or password
         })
         .catch(function(error) {
-          vaError = error;
-          window.alert("Looks like there was an error with your request.");
-        });
-        this.isVisible = true;
-        this.isValid = validation;
-        this.errorMessage = vaError;
+          vaError = error
+          window.alert("Looks like there was an error with your request.")
+        })
+        this.isVisible = true
+        this.isValid = validation
+        this.errorMessage = vaError
       },
     }
   }
