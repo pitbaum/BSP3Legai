@@ -3,7 +3,7 @@
 </head>
 
 <template>
-    <p>Question: {{currentQuestion}}</p>
+    <p>{{currentQuestion}}</p>
     <div v-for= "(anwser, index) in currentAnwsers" v-bind:key="anwser">
     <input type="radio" id="mark" name="possibleAnwsers" v-model= "selectedAnwser" v-bind:value= "anwser">
     <label for="mark">{{index + 1}}) {{anwser}}</label><br>
@@ -66,19 +66,31 @@
 
             async submitTick(e) {
                 e.preventDefault()
-                this.addNewFinishedQA()
-                this.currentAnwsers.splice(0) //empty the array
-                let payload = {currentQuestion: this.currentQuestion, currentAnwser: this.selectedAnwser, token: VueCookies.get('token').token}
-                let env = this; //actually unnecessary with the syntax below
-                let response = await axios.get('/casefaq', payload)
-                if(response.data.question === 'NULL') {
-                    //If the last question in the queue was anwsered, the backend will send a NULL string and this verifies the end.
-                    window.alert('All questions anwsered, Please check your anwsers and press submit to finish')
+                if(this.currentQuestion === "All questions anwsered, Please check your anwsers and press submit to finish"){  
+                    let body = this.finsihedQA
+                    let env = this //actually unnecessary with the syntax below
+                    await axios.post("/casefaq", body).then(function(response) {
+                        if(response.status === 201)
+                            env.$router.push("/dashboard")
+                        else 
+                            env.currentQuestion = "There was a server error, please try to submit again."
+                    })
                 }
-                else { //Next question and possible anwsers were sent.
-                    env.currentQuestion = response.data.question
-                    for(var j = 0; j < response.data.currentAnwsers.length; j++) {
-                        env.currentAnwsers.push(response.data.currentAnwsers[j].anwser)
+                else {
+                    this.addNewFinishedQA()
+                    this.currentAnwsers.splice(0) //empty the array
+                    let payload = {currentQuestion: this.currentQuestion, currentAnwser: this.selectedAnwser, token: VueCookies.get('token').token}
+                    let env = this; //actually unnecessary with the syntax below
+                    let response = await axios.get('/casefaq', payload)
+                    if(response.data.question === 'NULL') {
+                        //If the last question in the queue was anwsered, the backend will send a NULL string and this verifies the end.
+                        env.currentQuestion = 'All questions anwsered, Please check your anwsers and press submit to finish'
+                    }
+                    else { //Next question and possible anwsers were sent.
+                        env.currentQuestion = response.data.question
+                        for(var j = 0; j < response.data.currentAnwsers.length; j++) {
+                            env.currentAnwsers.push(response.data.currentAnwsers[j].anwser)
+                        } 
                     } 
                 }
             },

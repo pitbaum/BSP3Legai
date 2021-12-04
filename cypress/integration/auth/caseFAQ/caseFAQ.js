@@ -57,7 +57,7 @@ When(/^I click on the newCase button$/, () => {
 
 Then(/^I should see a question and multiple choice fields$/, () => {
     cy.url().should('includes', '/casefaq');
-    cy.contains("Question:");
+    cy.contains("This is the 1st question");
     cy.contains("Submit");
     cy.contains("anwser");
     cy.contains("possibility");
@@ -121,5 +121,5 @@ Then(/^I should be redirected to the dashboard$/, () => {
   }).as("sentLastVerificationCopy");
   cy.get("[data-testid=submitBtn]").click();
   cy.wait("@sentLastVerificationCopy");
-  cy.url().should('includes', '/casefaq');
+  cy.url().should('includes', '/dashboard');
 });
