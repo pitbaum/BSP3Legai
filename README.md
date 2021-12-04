@@ -7,7 +7,7 @@ This is the client side of the legai.app
 
 ### Features Work in progress:
 
-caseFAQ and dashboardCaseListing, both are new case creation related features.
+DashboardCaseListing, a case creation related feature.
 
 ### TODO:
 
