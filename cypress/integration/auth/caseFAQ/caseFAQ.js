@@ -94,7 +94,7 @@ Then(/^I should see the next question and a summary of the anwser progress$/, ()
   cy.contains("The case was made in the EU");
   cy.contains("Not sure");
   cy.contains("The case wasnt yet formelly presented");
-  cy.contains("Finished Questions: ");
+  cy.contains("Previous Results:");
   cy.contains("Q: This is the 1st question A: possible anwser 1");
 });
 
@@ -104,8 +104,8 @@ When(/^I anwsered all the questions$/, () => {
     statusCode: 201,
     body: {
       question: "NULL",
-      currentAnwsers: [{}]
-    },}).as("@allAnwsered");
+      currentAnwsers: []
+    },}).as("allAnwsered");
     cy.get("[data-testid=submitBtn").click();
     cy.wait("@allAnwsered");
 });

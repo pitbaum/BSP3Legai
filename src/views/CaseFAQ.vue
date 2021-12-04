@@ -5,13 +5,15 @@
 <template>
     <p>Question: {{currentQuestion}}</p>
     <div v-for= "(anwser, index) in currentAnwsers" v-bind:key="anwser">
-    <input type="radio" id="mark" name="possibleAnwsers">
+    <input type="radio" id="mark" name="possibleAnwsers" v-model= "selectedAnwser" v-bind:value= "anwser">
     <label for="mark">{{index + 1}}) {{anwser}}</label><br>
     </div>
     <input type="submit" value="Submit" id="anwser-submit" v-on:click="submitTick" data-testid="submitBtn">
-    
-    <div v-for= "value in anwseredAnwser" v-bind:key="value">
-        
+
+    <p></p>
+    <p>Previous Results:</p>
+    <div v-for= "(value, index) in finsihedQA" v-bind:key="value">
+    <label>{{index+1}}) Q: {{value.question}} A: {{value.anwser}}</label><br>
     </div>
 </template>
 
@@ -50,17 +52,21 @@
             return {
                 currentQuestion: "NULL",
                 currentAnwsers: [],
-                anwseredAnwer: [],
+                anwseredAnwer: ["28", "kjg"],
                 anwseredQuestion: [],
+                finsihedQA: [],
                 selectedAnwser: ""
             }
         },
 
         methods: {
+            addNewFinishedQA() {
+                this.finsihedQA.push({question: this.currentQuestion, anwser: this.selectedAnwser})
+            },
+
             async submitTick(e) {
-                e.preventDefault();
-                this.anwseredQuestion.push(this.currentQuestion)
-                this.anwseredAnwer.push(this.selectedAnwser)
+                e.preventDefault()
+                this.addNewFinishedQA()
                 this.currentAnwsers.splice(0) //empty the array
                 let payload = {currentQuestion: this.currentQuestion, currentAnwser: this.selectedAnwser, token: VueCookies.get('token').token}
                 let env = this; //actually unnecessary with the syntax below
