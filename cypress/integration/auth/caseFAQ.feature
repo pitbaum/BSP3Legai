@@ -1,4 +1,4 @@
-Feature: Anwsering questions
+Feature: Anwsering questions and send them to the server.
     Background:
         Given I log in
         Given I am in the dashboard
@@ -11,4 +11,3 @@ Feature: Anwsering questions
         When I anwsered all the questions
         Then I should see a validation Message
         Then I should be redirected to the dashboard
-        When I am in the Dashboard I should see the newly created document
