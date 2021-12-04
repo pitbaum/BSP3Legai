@@ -112,7 +112,7 @@ When(/^I anwsered all the questions$/, () => {
 
 
 Then(/^I should see a validation Message$/, () => {
-  cy.contains("All questions anwsered, Please check your anwseres and press submit to finish");
+  cy.contains("All questions anwsered, Please check your anwsers and press submit to finish");
 });
 
 Then(/^I should be redirected to the dashboard$/, () => {

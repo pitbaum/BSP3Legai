@@ -4,14 +4,14 @@
 
 <template>
     <p>Question: {{currentQuestion}}</p>
-    <div v-for= "anwser in currentAnwsers" v-bind:key="anwser">
+    <div v-for= "(anwser, index) in currentAnwsers" v-bind:key="anwser">
     <input type="radio" id="mark" name="possibleAnwsers">
-    <label for="mark">{{anwser}}</label><br>
+    <label for="mark">{{index + 1}}) {{anwser}}</label><br>
     </div>
     <input type="submit" value="Submit" id="anwser-submit" v-on:click="submitTick" data-testid="submitBtn">
     
-    <div >
-
+    <div v-for= "value in anwseredAnwser" v-bind:key="value">
+        
     </div>
 </template>
 
@@ -67,7 +67,7 @@
                 let response = await axios.get('/casefaq', payload)
                 if(response.data.question === 'NULL') {
                     //If the last question in the queue was anwsered, the backend will send a NULL string and this verifies the end.
-                    window.alert('All questions have been anwsered')
+                    window.alert('All questions anwsered, Please check your anwsers and press submit to finish')
                 }
                 else { //Next question and possible anwsers were sent.
                     env.currentQuestion = response.data.question
