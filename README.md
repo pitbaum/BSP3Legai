@@ -11,9 +11,9 @@ caseFAQ and dashboardCaseListing, both are new case creation related features.
 
 ### TODO:
 
-- Finish the implementation of the cases
-- Add a unit test
-- Clean up the code and delete some debugging messages
+- Finish the implementation of the cases.
+- Add a unit test.
+- Clean up the code and delete some debugging messages.
 
 #### necessery tools and libraries:
 
