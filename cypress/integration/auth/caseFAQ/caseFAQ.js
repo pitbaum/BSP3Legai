@@ -110,7 +110,6 @@ When(/^I anwsered all the questions$/, () => {
     cy.wait("@allAnwsered");
 });
 
-
 Then(/^I should see a validation Message$/, () => {
   cy.contains("All questions anwsered, Please check your anwsers and press submit to finish");
 });

@@ -30,7 +30,7 @@ import VueCookies from 'vue-cookies';
 		if(response.status === 200){ //reserve 200 for try without token
 			this.$router.push("/login")
 		}
-		if(response.status >=200 && response.status <= 209) {
+		if(response.status > 200 && response.status <= 209) {
 			this.isValid = true
 			this.welcomeMSG = response.data.welcome //include personal welcome msg
 			this.gatherFiles()
