@@ -5,13 +5,14 @@ This is the client side of the legai.app
 - **to run:** "npm run serve"
 - **to run cypress:** "npx cypress open"
 
-### Features Work in progress:
+### possible future Features:
 
-DashboardCaseListing, a case creation related feature.
+- Dashboard dynamic routing for the casereferences to the case editor.
+- Use dynamic routing for the storage of the UserID.
+- Revise the E2E tests with promises for the check of the token and UserID. 
 
 ### TODO:
 
-- Finish the implementation of the cases.
 - Add a unit test.
 - Clean up the code and delete some debugging messages.
 
