@@ -1,9 +1,10 @@
 const { Given, When, Then } = require("cypress-cucumber-preprocessor/steps");
 
+let savedCases = []
+savedCases.push({caseID: "A01"}, {caseID: "B03"},)
 Given(/^I log in$/, () => {
+  cy.visit("http://localhost:8080/#/login");
     cy.url().should('includes', '/login');
-    cy.get("[data-testid=email]").type("good@email.com");
-    cy.get("[data-testid=password]").type("goodpassword");
     cy.intercept('POST', '/login', {
         statusCode: 201,
         body: {
@@ -15,7 +16,27 @@ Given(/^I log in$/, () => {
 });
 
 When(/^I am in the dashboard$/, () => {
-    cy.url().should('includes', '/dashboard');
+  cy.intercept('POST', '/dashboard', {
+    statusCode: 201,
+    body: {
+      token: 'i837498qkjhdaada',
+      welcome: 'Welcome to the dashboard UserToken[i837498qkjhdaada]',
+    },
+    }).as("validationIntercept");
+    cy.intercept('Get', '/dashboard', { 
+      //backend will have saved the cases with some ID
+      //and given it a dynamic route to the page where the case can be worked upon.
+      //so sending the ID of the cases is enough to access them.
+      statusCode: 201,
+      body: {
+        cases: savedCases
+      },
+    }).as("gatherCases")
+  cy.visit('http://localhost:8080/#/dashboard');
+  cy.wait("@validationIntercept");
+  cy.wait("@gatherCases");
+  cy.url().should('includes', '/dashboard');
+  cy.contains('Welcome');
 });
 
 Then(/^create a new case$/, () => {
@@ -56,20 +77,46 @@ When(/^I anwsered all the questions$/, () => {
 
 
 Then(/^I should be redirected to the dashboard$/, () => {
+  //could omit the override on the dashboard post and get, but somehow caused an error.
     cy.intercept("POST", "/casefaq", (req) => {
         req.reply(201);
     }).as("sentLastVerificationCopy");
+
+    cy.intercept('POST', '/dashboard', {
+      statusCode: 201,
+      body: {
+        token: 'i837498qkjhdaada',
+        welcome: 'Welcome to the dashboard UserToken[i837498qkjhdaada]',
+      },
+    }).as("validationIntercept");
+
+  cy.intercept('Get', '/dashboard', { 
+      //backend will have saved the cases with some ID
+      //and given it a dynamic route to the page where the case can be worked upon.
+      //so sending the ID of the cases is enough to access them.
+      statusCode: 201,
+      body: {
+        cases: savedCases
+      },
+  }).as("gatherCases");
     cy.get("[data-testid=submitBtn]").click();
+    //push to the cases storage
+    savedCases.push({caseID: "C03"})
     cy.wait("@sentLastVerificationCopy");
     cy.url().should('includes', '/dashboard');
+    cy.wait("@validationIntercept");
+    cy.wait("@gatherCases");
+    cy.url().should('includes', '/dashboard');
+    cy.contains('Welcome');
 });
 
 
 Then(/^I should see the case number incremented$/, () => {
-    cy.contains("number of cases: 1");
+  cy.contains("Cases: 3");
 });
 
 Then(/^I should see a new case in the case list$/, () => {
-    cy.contains("Case link:");
-    cy.contains("case1");
+    cy.contains("C03");
+    cy.contains("caseID");
+    cy.contains("caseID: A01");
 });

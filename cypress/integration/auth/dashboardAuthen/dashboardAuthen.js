@@ -24,9 +24,6 @@ Then(/^I should get to the dashboard$/, () => {
       }).as("validationIntercept");
     cy.intercept('Get', '/dashboard', {
         statusCode: 201,
-        body: {
-          
-        },
     }).as("gatherCases")
       cy.visit('http://localhost:8080/#/dashboard');
       cy.wait("@validationIntercept");

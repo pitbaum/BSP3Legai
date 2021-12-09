@@ -53,9 +53,6 @@ Then(/^I should validate the session key for authetication$/, () => {
       }).as("validationIntercept");
     cy.intercept('Get', '/dashboard', {
         statusCode: 201,
-        body: {
-          
-        },
     }).as("gatherCases")
       cy.visit('http://localhost:8080/#/dashboard');
       cy.wait("@validationIntercept");

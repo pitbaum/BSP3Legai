@@ -6,9 +6,13 @@
 	<div v-show="isValid" id="welcome">
 		<span>{{welcomeMSG}}</span>
 		<span> {{errorMSG}}</span>
-		<p>Cases: {{caseNumber}}</p>
+		<p></p>
 		<input type="submit" value="Log out" v-on:click="checkLogout" data-testid="logoutBtn">
 		<input type="submit" value="New Case" v-on:click="createNewCase" data-testid="newCaseBtn">
+		<p>Cases: {{caseNumber}}</p>
+	</div>
+	<div v-for= "(id, index) in caseReferences" v-bind:key="id">
+			<label>{{index+1}}) caseID: {{id}}</label><br>
 	</div>
 </template>
 
@@ -23,16 +27,16 @@ import VueCookies from 'vue-cookies';
 		if(VueCookies.isKey('token'))
 			authen = VueCookies.get('token').token
 		else
-			authen = 'NULL' //if we enter without token, the backend will get a NULL string as token
+			authen = 'NULL' //if we enter without token, the backend will get a NULL string as token.
 
 		let payload = {token: authen}
         let response = await axios.post('/dashboard', payload)
-		if(response.status === 200){ //reserve 200 for try without token
+		if(response.status === 200){ //reserve 200 for try without token.
 			this.$router.push("/login")
 		}
 		if(response.status > 200 && response.status <= 209) {
 			this.isValid = true
-			this.welcomeMSG = response.data.welcome //include personal welcome msg
+			this.welcomeMSG = response.data.welcome //include personal welcome msg.
 			this.gatherFiles()
 		}
 		else 
@@ -43,19 +47,24 @@ import VueCookies from 'vue-cookies';
     	return {
 		welcomeMSG: "Welcome to the Dashboard",
 		errorMSG: "",
-		isValid: false, // can i see the page?
-		caseNumber: 0, // amount of cases
-		caseReferences: [], //list of cases created
+		isValid: false, // should the page be visible.
+		caseNumber: 0, // amount of cases.
+		caseReferences: [], //list of caseID routes.
       }
 	},
 
 	methods: {
-	  gatherFiles() { //get request for the cases from the server.
+	  gatherFiles() { //get request for the cases from the server. 
+		//No asynch needed, so that you can access page before end of load.
+		let env = this;
 	  	axios.get("/dashboard", {headers: {'Operation': 'gatherFiles'}}).then((response) => {
-      		console.log(response) //update the cases
-      	}).catch((error) => {
-      		window.alert(error + ' could not load cases.')
-    	});
+			if(response.data["cases"]){//check if cases key is even in the response
+				for(var i = 0; i < response.data.cases.length; i++){
+					env.caseReferences.push(response.data.cases[i].caseID)//update the cases.
+				}
+				env.caseNumber = env.caseReferences.length
+			}
+      	})
 	  },
 
 	  async checkLogout(e) {
@@ -64,7 +73,7 @@ import VueCookies from 'vue-cookies';
 		  e.preventDefault()
 		  if(VueCookies.isKey('token')) {
 			let payload = {token: VueCookies.get('token').token}
-			const env = this;	//need the environement in the axios
+			const env = this;	//need the environement in the axios.
 		    await axios.post('/dashboard', payload).then(function(response) {
          	  if(response.status === 201) {
 				VueCookies.remove('token')
@@ -84,7 +93,7 @@ import VueCookies from 'vue-cookies';
 		let payload = {token: VueCookies.get('token').token}
 		await axios.post("/dashboard", payload).then(function(response) {
           if(response.status === 201)
-		  	env.$router.push("/casefaq")//access granted, reroute
+		  	env.$router.push("/casefaq")//access granted, reroute.
         })
 	  }
     },

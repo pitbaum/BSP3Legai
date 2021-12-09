@@ -9,7 +9,6 @@
     <label for="mark">{{index + 1}}) {{anwser}}</label><br>
     </div>
     <input type="submit" value="Submit" id="anwser-submit" v-on:click="submitTick" data-testid="submitBtn">
-
     <p></p>
     <p>Previous Results:</p>
     <div v-for= "(value, index) in finsihedQA" v-bind:key="value">
@@ -32,27 +31,13 @@
                     } 
                 }
       	    })
-            /*let response = await axios.post('/casefaq', payload)
-		    if(response.status >= 200 && response.status <= 209) {
-			    env.currentQuestion = response.data.question
-                /*for(var j = 0; j < response.data.currentAnwsers.length; j++) {
-                    env.currentAnwsers.push(response.data.currentAnwsers[j].anwser)
-                }
-                /*  for(var i = 0; i < response.data.anwseredQuestions.length; i++) {
-                    var doneQA = (response.data.anwseredQuestions[i])
-                    this.anwseredQuestion.push(doneQA.question)
-                    this.anwseredAnwser.push(doneQA.anwser)
-                }*/ //initialize with already anwsered questions on summary the stack
-            //}
-            //else
-              //  window.alert(response.status)
         },
 
         data() {
             return {
                 currentQuestion: "NULL",
                 currentAnwsers: [],
-                anwseredAnwer: ["28", "kjg"],
+                anwseredAnwer: [],
                 anwseredQuestion: [],
                 finsihedQA: [],
                 selectedAnwser: ""
