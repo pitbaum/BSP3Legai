@@ -1,5 +1,5 @@
 const { Given, When, Then } = require("cypress-cucumber-preprocessor/steps");
-
+let valid;
 Given(/^I am in the home$/, () => {
     cy.visit("http://localhost:8080/#/");
 });
