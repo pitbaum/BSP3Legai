@@ -12,11 +12,6 @@ This is the client side of the legai.app
 - Revise the E2E tests with promises for the check of the token and UserID. 
 - Add unit tests to dashboard and caseFAQ functions.
 
-### TODO:
-
-- Add a unit test.
-- Clean up the code and delete some debugging messages.
-
 #### necessery tools and libraries:
 
 - VueJS, Cypress, Cuccumber
